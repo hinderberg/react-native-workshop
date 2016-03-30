@@ -14,10 +14,6 @@ const styles = {
         right: 0,
         height: 50
     },
-    navBarRightText: {
-        top: -3,
-        color: '#ffffff'
-    },
     sendButton: {
       padding: 15,
       top: -3
