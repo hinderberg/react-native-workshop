@@ -2,12 +2,11 @@
 
 import React, {
   View,
+  Text,
   Component,
-  ListView,
-  RefreshControl
+  ListView
 } from 'react-native';
 
-import { Message } from './message'
 import { Colors } from './../config/design';
 
 const DSConfig = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
@@ -25,44 +24,13 @@ export default class MessageList extends Component {
   }
 
   render() {
-    let messages = this.props.messages.filter(validateMessage).reverse();
-    let dataSource = this._getDataSource(messages);
-
-    return (
-      <ListView
-        style={{ flex: 1 }}
-        refreshControl={
-          <RefreshControl
-            refreshing={ this.props.refreshing }
-            onRefresh={ this.props.refreshView }
-            tintColor="#ff0000"
-            title="Laster..."
-            colors={ [Colors.Red, Colors.Green, Colors.Yellow] }
-          />
-        }
-        dataSource={ dataSource }
-        renderRow={ renderRow }
-      />
-    )
+    // Hint: React-native has a ListView component, which is great for lists *wink, wink*
+    return <View></View>;
   }
 }
 
-const renderRow = (rowData) => {
-  const image = rowData.image || undefined;
-  const from = rowData.from || '';
-  const message = rowData.message || '';
-
-  return (
-    <Message from={ from }
-      message={ message }
-      image={ image } />
-  );
-}
-
-const validateMessage = message => {
-  return message.message && message.message.length > 0
-}
-
 MessageList.propTypes = {
-  messages: React.PropTypes.array
+  messages: React.PropTypes.array,
+  refreshView: React.PropTypes.func,
+  refreshing: React.PropTypes.bool
 };
