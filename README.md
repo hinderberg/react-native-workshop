@@ -11,11 +11,12 @@ To setup your environment, follow the steps [here](setup.md).
 * [Redux documentation](http://redux.js.org/)
 * [A complete guide to flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 
-##Introduction
-- TODO: Introduction to application (Redux, Navigation, etc.)
-- TODO: Useful links
-- TODO: Debugging: Developer menu, debug in chrome, run on device
-- Working with styling: In the docs, the `style` prop of each component shows a complete list of styles supported by that component: Example: http://facebook.github.io/react-native/docs/view.html#style
+##Debugging options
+* Open developer menu: cmd+d (iOS), F2(Android)
+* Enable "Debug in Chrome" to set breakpoints, log to Chrome console, pause on caught exceptions, etc.
+* "Enable Live Reload" will live reload code on save
+* "Enable Hot Reloading" will immidiately reload code while also maintaining application state. __NB:__ Added to the latest RN version so it might be buggy
+* Run on device: [iOS](https://facebook.github.io/react-native/docs/running-on-device-ios.html#content) / [Android](https://facebook.github.io/react-native/docs/running-on-device-android.html#content)
 
 ##1. Create a New Message View
 
@@ -33,6 +34,8 @@ c) __Hook everything up.__ Make the send button actually post the message to the
 If you've hooked everything up correctly, your message should appear on the big screen (or at http://mobile-course.herokuapp.com) when you hit the send button. Well done! :punch: Now, let's make it beautiful too!
 
 d) __Make it look sexy.__ At this point we won't kill you if your new message view looks like shit! Anyway, now you get the chance to pimp it up a bit. Experiment with different Flexbox properties. Have a look at the screenshots above for some inspiration.
+
+Tip on working with styling: In the docs, the `style` prop of each component shows a complete list of styles supported by that   component: Example: http://facebook.github.io/react-native/docs/view.html#style
 
 ##2. Show messages
 
@@ -78,18 +81,37 @@ Well done! This starts to look like a complete application!
 
 ##4. Add image to new messages
 
-A message consisting of only text is quite boring these days. Also, a picture says more than a thousand words... So, let's allow the user to add an image to new messages.
+A message consisting of text only is quite boring these days. Also, a picture says more than a thousand words... So, let's add functionality to allow the user to add an image to new messages.
 
-React Native has no component or API for taking pictures on the fly or picking an image from the camera roll. That's where third-party npm modules come in handy. We'll use the react-native-image-picker module (link), which allows for both taking new pictures and picking from the camera roll. It's implemented by bridging to the pure native image picker and picture taking apps.
+React Native has no component or API for taking pictures on the fly or picking an image from the camera roll. That's where third-party npm modules come in handy. We'll use the [react-native-image-picker](https://github.com/marcshilling/react-native-image-picker) module, which allows for both taking new pictures and picking from the camera roll. It's implemented by bridging to the pure native image picker and picture taking apps. 
 
-We've already added the module to the project, and wrapped it in a promise. Have a look at `camera.js`. You need to use the  `pickImage()` function of `camera.js` and handle the promise. You can also tweak and experiment with the image picker configuration, also found in `camera.js`.
+The module is already installed in the project. We've also created an action, `openImagePicker()`, which opens the native image picker and saves the captured image to the global state.
 
 a) __Button.__ We need a button for launching the image picker.
 
-b) __Pick it.__ Hook the button up to the image picker. To open the image picker, you're not rendering a component, but simply calling a JavaScript function that further calls some native, platform specific code. Hence, the handling of opening the picker is better implemented by an action than a component. So, create an action that opens the image picker, and hook it up to the button.
+b) __Pick it.__ Hook the button up to the image picker by firing the `openImagePicker()` action when the button is pressed.
 
-c) __Save it.__ Make sure your action saves it to the Redux store. Hint: Use `setImage()` in `actions.js`
+c) __Show it.__ Display the image in the `NewMessage`component. Allow it to use all available space, but make sure it's good lookin' by maintaining _dat_ aspect ratio.
 
-c) __Show it.__ After successfully picking an image, display the image in the `NewMessage`component. Allow it to use all available space, but make sure it stays good lookin' by maintaining its aspect ratio.
+d) __Send it.__ If you've hooked everything up correctly, `postMessage()` should already support posting messages with images to the server. Try it out. Works? Good!
 
-d) __Send it.__ If you've added the image to the Redux state, `postMessage()` should already support posting messages with image to the server. Works? Good! (Kanskje deltakerene bør utvide postMessage selv? Men da bør de kanskje også lage action setImage selv + håndtere den i reduceren. Kan bli litt mye?)
+e) __Clear it.__ Currently, the image is never cleared from the global state. This will cause `NewMessage` to display the previous picked image in a couple of cases:
+  * When you've sent a message containing an image
+  * When you pick an image -> navigate back to `MessageList` -> navigate to `NewMessage`
+
+Use `clearImage()` to clear the globally stored image such that the above mentioned scenarios no longer occur.
+
+##5. Additional assignments
+
+React Native has plenty of issues up for grabs: https://github.com/facebook/react-native/issues
+
+Just kidding.. 
+
+Here's a few interesting tasks for you choose from:
+* Show images in full screen when pressed
+* Edit messages by reusing the `NewMessage` component
+* Delete messages:
+  - iOS: Listen for swipe gesture on the messages. Use the native list view handling like the standard Mail app. Create a action and reducer for deletion.
+  - Android: Long press to delete
+* __Advanced:__ Bidge a component from Android/iOS to React Native. We suggest Toasts for Android or Alert for iOS. They're already implemented in RN, but might be good subjects for practice (and you can peak the RN source code for tips).
+* Or anything else you want to try out :-)
