@@ -53,8 +53,10 @@ export const openImagePicker = () => (dispatch) => {
     .catch((error) => console.error(error));
 };
 
-export const clearImage = () => (dispatch) => {
+export const clearNewMessageState = () => (dispatch) => {
   dispatch(setImage(null));
+  dispatch(setUsername(null));
+  dispatch(setNewMessageText(null));
 };
 
 const setImage = (image) => ({ type: SET_IMAGE, image });
