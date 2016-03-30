@@ -23,7 +23,7 @@ class NewMessage extends Component {
     }
 
     render() {
-        const { username, newMessageText, setNewMessageText, setUsername, postMessage, error, image, onPickImagePressed } = this.props;
+        const { username, newMessageText, setNewMessageText, setUsername, error, image, onPickImagePressed } = this.props;
         const sendButton = Platform.OS === 'android' ? null : this._renderSendButton();
         const feedback = error ? <View style={styles.feedback}><Text style={styles.feedbackText}>{error}</Text></View> : null;
         const maybeImage = image ? <Image source={image.source} style={styles.image}/> : null;
