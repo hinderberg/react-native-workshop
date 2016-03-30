@@ -17,7 +17,7 @@ import { postMessage, setNewMessageText, setUsername, openImagePicker, clearNewM
 class NewMessage extends Component {
 
     componentWillUnmount() {
-        this.props.clearImage();
+        this.props.clearState();
     }
 
     render() {
