@@ -12,9 +12,7 @@ import React, {
 import { Colors, Fonts } from './../config/design';
 import { connect } from 'react-redux';
 import { pickImage } from './camera/camera';
-import { openImagePicker, clearImage } from '../actions/actions';
-
-import { postMessage, setNewMessageText, setUsername } from '../actions/actions';
+import { postMessage, setNewMessageText, setUsername, openImagePicker, clearNewMessageState } from '../actions/actions';
 
 class NewMessage extends Component {
 
@@ -138,13 +136,13 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = ({ username, newMessageText, error, image }) => ({ username, newMessageText, error, image });
+const mapStateToProps = ({ username, newMessageText, error, image }) => ({username, newMessageText, error, image});
 const mapDispatchToProps = (dispatch) => ({
     postMessage: () => dispatch(postMessage()),
     setNewMessageText: message => dispatch(setNewMessageText(message)),
     setUsername: name => dispatch(setUsername(name)),
     onPickImagePressed: () => dispatch(openImagePicker()),
-    clearImage: () => dispatch(clearImage()),
+    clearState: () => dispatch(clearNewMessageState())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewMessage);
