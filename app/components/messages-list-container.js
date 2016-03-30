@@ -7,7 +7,6 @@ import React, {
 } from 'react-native';
 import { connect } from 'react-redux';
 import MessageList from './message-list';
-import ColoredFab from './colored-fab';
 import { fetchMessages, postMessage } from '../actions/actions';
 import { ErrorMessage } from './error-message'
 import { newMessage } from './navigation/routes';
@@ -17,13 +16,6 @@ import { Colors } from './../config/design';
 class MessageListContainer extends Component {
   componentWillMount() {
     this.props.fetchMessages();
-  }
-
-  _shouldRenderFabulousAndroidUI() {
-    if (Platform.OS === 'android') {
-      return <ColoredFab onPress={this.props.goToNewMessage}>+</ColoredFab>
-    }
-    return null;
   }
 
   render() {
@@ -39,7 +31,6 @@ class MessageListContainer extends Component {
           refreshView={ this.props.fetchMessages }
           navigator={this.props.navigator}
         />
-        {this._shouldRenderFabulousAndroidUI()}
       </View>
     );
   }
