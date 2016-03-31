@@ -1,12 +1,27 @@
 'use strict';
-import React, { TouchableOpacity } from 'react-native';
+import React, { Text, TouchableOpacity } from 'react-native';
 import { newMessage } from './routes';
-import ConnectedSendButton from './spinning-send-button-DO-NOT-TOUCH';
+import { postMessage } from './../../actions/actions';
+import { Colors } from './../../config/design';
+
+const styles = {
+    navBarRightButton: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        top: 0,
+        right: 0,
+        height: 50
+    },
+    text: {
+        color: Colors.White
+    }
+};
 
 const navigationBarButtons = (dispatch) => ({
 
     RightButton (route) {
-
+        // Hint: implement the send-button for android here
     }
 });
 
