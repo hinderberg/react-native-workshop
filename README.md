@@ -19,6 +19,8 @@ To setup your environment, follow the steps [here](setup.md).
 * "Enable Hot Reloading" will immidiately reload code while also maintaining application state. __NB:__ Added to the latest RN version so it might be buggy
 * Run on device: [iOS](https://facebook.github.io/react-native/docs/running-on-device-ios.html#content) / [Android](https://facebook.github.io/react-native/docs/running-on-device-android.html#content)
 
+Finally, checkout branch `exercise-1` for the first task.
+
 ##1. Create a New Message View
 
 Your first task is to create a view in which the user can input a username and a message. The screenshots below show roughly how your app should look like after completing this task. Focus on functionality in a)-c). In d) you'll improve the design. 
@@ -29,12 +31,14 @@ Your first task is to create a view in which the user can input a username and a
 a) __Input fields.__ You'll find a `NewMessage` (`app/components/new-message.js`) component in your project. The component is already mounted in the default view, but it renders nothing. Implement the render function of `NewMessage` so the resulting view contains two input fields – one for the username and one for the message.
 
 b) __Send button.__ Input fields without any action are of no use. Create a send button. (Hint: Buttons in React Native are implemented via the `Touchable*` components)
+  * __Android:__ To place it in the navigation bar, you'll have to implement it in `navigationbar-buttons.android.js`
 
 c) __Hook everything up.__ Make the send button actually post the message to the server. The `NewMessage` component recieves three functions as props, `setNewMessageText(message)`, `setUsername(username)`, and `postMessage()`. The first two will update the global state, and the latter will use the `message` and the `username` property from the global state and post the message to the server.
+  * __Android:__ Since the send button is placed in the navigation bar, you'll have to import the `postMessage` action directly from `actions.js`, and dispatch it.
 
 If you've hooked everything up correctly, your message should appear on the big screen (or at http://mobile-course.herokuapp.com) when you hit the send button. Well done! :punch: Now, let's make it beautiful too!
 
-d) __Make it look sexy.__ At this point we won't kill you if your new message view looks like shit! Anyway, now you get the chance to pimp it up a bit. Experiment with different Flexbox properties. Have a look at the screenshots above for some inspiration.
+d) __Make it look sexy.__ At this point we won't kill you if your new message view looks like shit! Anyway, now you get the chance to pimp it up a bit. Experiment with different Flexbox properties. Have a look at the screenshots above for some inspiration. Also, the colors used in the screenshots are found in `config/design.js`. 
 
 Tip on working with styling: In the docs, the `style` prop of each component shows a complete list of styles supported by that   component: Example: http://facebook.github.io/react-native/docs/view.html#style
 
@@ -66,10 +70,8 @@ As promised in the previous task, we now shift our attention back to the `NewMes
 Before you dive back into your code, let's take a closer look at how navigation is set up in the application. We use the `Navigator`component of React Native, wrapped in a custom component that handles some boilerplate code – like how transitions between routes are animated and how the navigation bar is configured. `Navigator` is basically a stack – you push a view to it to transition to that view, and you pop to go back to previous view.
 
 a) __Button.__ We need a button to initiate a transition to `NewMessage`. To ensure a great native look in our app, we'll implement the button platform specific:
- * __Android:__ Implement the button as a floating button contained in the list view (TODO: mer info om react-native-material-kit)
- * __iOS:__  Implement the button as a +-button contained in the navigation bar
-
-(Screenshots of the two buttons in action)
+ * __Android:__ Implement the button as a floating button contained in the list view. We have added react-native-material-kit to the project so can use to get material design feel. 
+ * __iOS:__  Implement the button as a '+' button contained in the navigation bar aligned to the right. 
 
 b) __Push it.__ Make sure that a press on the button you created, transitions to the `NewMessage` view.
  * __iOS:__ Hide the +-button when current route is `NewMessage`
